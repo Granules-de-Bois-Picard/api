@@ -19,7 +19,11 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', [UserController::class, 'index']);
-        Route::get('{id}', [UserController::class, 'show'])->where('id', '[0-9a-fA-F]{24}');
+        Route::get('{id}', [UserController::class, 'show'])->where('id', '[0-9a-fA-F\-]{36}');
+        Route::post('/', [UserController::class, 'store']);
+        Route::put('{id}', [UserController::class, 'update'])->where('id', '[0-9a-fA-F\-]{36}');
+        Route::put('{id}/change-password', [UserController::class, 'changePassword'])->where('id', '[0-9a-fA-F\-]{36}');
+        Route::delete('{id}', [UserController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
     });
 });
 

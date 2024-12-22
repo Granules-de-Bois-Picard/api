@@ -2,11 +2,13 @@
 
 namespace App\Repositories;
 
+use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use App\Transformers\UserTransformer;
+use Exception;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserRepository implements UserRepositoryInterface
@@ -40,9 +42,34 @@ class UserRepository implements UserRepositoryInterface
         return fractal($user, new UserTransformer())->toArray();
     }
 
-    public function update(UserUpdateRequest $request, $id)
+    /**
+     * @throws Exception
+     */
+    public function update(UserUpdateRequest $request, $id): ?array
     {
+        $user = User::findOrFail($id);
 
+        $user->update($request->validated());
+
+        return fractal($user, new UserTransformer())->toArray();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function changePassword(UserChangePasswordRequest $request, $id): ?array
+    {
+        $user = User::findOrFail($id);
+
+        if (!password_verify($request->validated()['current_password'], $user->password)) {
+            throw new Exception('Current password is incorrect.');
+        }
+
+        $user->update([
+            'password' => bcrypt($request->validated()['password']),
+        ]);
+
+        return fractal($user, new UserTransformer())->toArray();
     }
 
     public function destroy($id)

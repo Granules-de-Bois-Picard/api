@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
+use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Interfaces\UserRepositoryInterface;
@@ -42,9 +43,24 @@ class UserController extends Controller
         }
     }
 
-    public function update(UserUpdateRequest $request, $id)
+    public function update(UserUpdateRequest $request, $id): JsonResponse
     {
-        //
+        try {
+            $user = $this->userRepositoryInterface->update($request, $id);
+            return ApiResponseClass::sendResponse($user, 'User updated successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
+
+    public function changePassword(UserChangePasswordRequest $request, $id): JsonResponse
+    {
+        try {
+            $user = $this->userRepositoryInterface->changePassword($request, $id);
+            return ApiResponseClass::sendResponse($user, 'Password changed successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
     }
 
     public function destroy($id)

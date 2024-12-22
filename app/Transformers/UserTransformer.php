@@ -17,6 +17,7 @@ class UserTransformer extends TransformerAbstract
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'email' => $user->email,
+            'locale' => $user->locale,
             'roles' => $user->roles->pluck('name'),
             "permissions" => $user->getAllPermissions()->pluck('name'),
             'created_at' => $user->created_at->toDateTimeString(),

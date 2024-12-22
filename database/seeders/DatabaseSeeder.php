@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             'user.view.first_name',
             'user.view.last_name',
             'user.view.email',
+            'user.view.locale',
             'user.view.created_at',
             'user.view.updated_at',
         ];

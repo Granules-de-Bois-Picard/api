@@ -19,6 +19,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed $first_name
  * @property mixed $last_name
  * @property mixed $email
+ * @property mixed $locale
  * @property mixed $password
  * @property mixed $email_verified_at
  * @property mixed $remember_token
@@ -40,6 +41,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'locale',
         'password',
     ];
 
