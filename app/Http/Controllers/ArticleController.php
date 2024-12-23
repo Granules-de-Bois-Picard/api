@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
 use App\Http\Requests\ArticleStoreRequest;
+use App\Http\Requests\ArticleUpdateRequest;
 use App\Interfaces\ArticleRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
@@ -26,11 +27,41 @@ class ArticleController extends Controller
         }
     }
 
+    public function show($id): JsonResponse
+    {
+        try {
+            $articles = $this->articleRepositoryInterface->show($id);
+            return ApiResponseClass::sendResponse($articles, 'Articles retrieved successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
+
     public function store(ArticleStoreRequest $request): JsonResponse
     {
         try {
             $article = $this->articleRepositoryInterface->store($request);
             return ApiResponseClass::sendResponse($article, 'Article created successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
+
+    public function update(ArticleUpdateRequest $request, $id): JsonResponse
+    {
+        try {
+            $article = $this->articleRepositoryInterface->update($request, $id);
+            return ApiResponseClass::sendResponse($article, 'Article updated successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
+
+    public function destroy($id): JsonResponse
+    {
+        try {
+            $this->articleRepositoryInterface->destroy($id);
+            return ApiResponseClass::sendResponse(null, 'Article deleted successfully');
         } catch (\Exception $e) {
             return ApiResponseClass::throw($e, $e->getMessage());
         }

@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $updated_at
  * @method static create(mixed $validated)
  * @method static where(string $string, string $slug)
+ * @method static findOrFail($id)
  */
 class Article extends Model
 {

@@ -38,7 +38,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => 'articles'], function () {
         Route::get('/', [ArticleController::class, 'index']);
+        Route::get('{id}', [ArticleController::class, 'show'])->where('id', '[0-9a-fA-F\-]{36}');
         Route::post('/', [ArticleController::class, 'store']);
+        Route::put('{id}', [ArticleController::class, 'update'])->where('id', '[0-9a-fA-F\-]{36}');
+        Route::delete('{id}', [ArticleController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
     });
 });
 
