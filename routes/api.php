@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -33,6 +34,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/', [RoleController::class, 'store']);
         Route::put('{id}', [RoleController::class, 'update'])->whereNumber('id');
         Route::delete('{id}', [RoleController::class, 'destroy'])->whereNumber('id');
+    });
+
+    Route::group(['prefix' => 'articles'], function () {
+        Route::get('/', [ArticleController::class, 'index']);
+        Route::post('/', [ArticleController::class, 'store']);
     });
 });
 
