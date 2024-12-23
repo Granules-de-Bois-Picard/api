@@ -27,10 +27,10 @@ class ArticleController extends Controller
         }
     }
 
-    public function show($id): JsonResponse
+    public function show($identifier): JsonResponse
     {
         try {
-            $articles = $this->articleRepositoryInterface->show($id);
+            $articles = $this->articleRepositoryInterface->show($identifier);
             return ApiResponseClass::sendResponse($articles, 'Articles retrieved successfully');
         } catch (\Exception $e) {
             return ApiResponseClass::throw($e, $e->getMessage());

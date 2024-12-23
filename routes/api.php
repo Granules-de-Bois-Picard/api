@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SlideController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,13 +36,28 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::put('{id}', [RoleController::class, 'update'])->whereNumber('id');
         Route::delete('{id}', [RoleController::class, 'destroy'])->whereNumber('id');
     });
+});
 
-    Route::group(['prefix' => 'articles'], function () {
-        Route::get('/', [ArticleController::class, 'index']);
-        Route::get('{id}', [ArticleController::class, 'show'])->where('id', '[0-9a-fA-F\-]{36}');
+Route::group(['prefix' => 'articles'], function () {
+    Route::get('/', [ArticleController::class, 'index']);
+    Route::get('{identifier}', [ArticleController::class, 'show'])->where('identifier', '[0-9a-fA-F\-]{36}|[a-zA-Z0-9\-]+');
+
+    Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/', [ArticleController::class, 'store']);
         Route::put('{id}', [ArticleController::class, 'update'])->where('id', '[0-9a-fA-F\-]{36}');
         Route::delete('{id}', [ArticleController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
     });
 });
+
+Route::group(['prefix' => 'slides'], function () {
+    Route::get('/', [SlideController::class, 'index']);
+    Route::get('{id}', [SlideController::class, 'show'])->where('id', '[0-9a-fA-F\-]{36}');
+
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('/', [SlideController::class, 'store']);
+        Route::put('{id}', [SlideController::class, 'update'])->where('id', '[0-9a-fA-F\-]{36}');
+        Route::delete('{id}', [SlideController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
+    });
+});
+
 

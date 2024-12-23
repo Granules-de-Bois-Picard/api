@@ -9,7 +9,7 @@ interface ArticleRepositoryInterface
 {
     public function index();
     public function store(ArticleStoreRequest $request);
-    public function show($id);
+    public function show($identifier);
     public function update(ArticleUpdateRequest $request, $id);
     public function destroy($id);
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\ArticleUpdateRequest;
 use App\Interfaces\ArticleRepositoryInterface;
 use App\Models\Article;
 use App\Transformers\ArticleTransformer;
+use Exception;
 use Illuminate\Support\Str;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -22,16 +23,32 @@ class ArticleRepository implements ArticleRepositoryInterface
 
     public function index(): ?array
     {
-        $articles = QueryBuilder::for(Article::class)
-            ->orderBy('created_at', 'desc')
-            ->paginate(11);
+        $query = QueryBuilder::for(Article::class)
+            ->orderBy('created_at', 'desc');
+
+        if (!auth('sanctum')->check()) {
+            $query->where('is_published', true);
+        }
+
+        $articles = $query->paginate(11);
 
         return fractal($articles, new ArticleTransformer())->toArray();
     }
 
-    public function show($id): ?array
+    /**
+     * @throws Exception
+     */
+    public function show($identifier): ?array
     {
-        $article = Article::findOrFail($id);
+        if (preg_match('/^[0-9a-fA-F\-]{36}$/', $identifier)) {
+            $article = Article::findOrFail($identifier);
+        } else {
+            $article = Article::where('slug', $identifier)->firstOrFail();
+        }
+
+        if (!$article->is_published && !auth('sanctum')->check()) {
+            throw new Exception('Article not found');
+        }
 
         return fractal($article, new ArticleTransformer())->toArray();
     }
