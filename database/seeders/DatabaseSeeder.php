@@ -21,15 +21,18 @@ class DatabaseSeeder extends Seeder
         }
 
         User::create([
-            'first_name' => 'Admin',
-            'last_name' => 'User',
-            'email' => 'admin@gmail.com',
+            'first_name' => 'Alan',
+            'last_name' => 'Hilarion',
+            'email' => 'alan.hilarion@proton.me',
             'password' => bcrypt('password'),
         ])->assignRole('admin');
 
-        User::factory(124)->create()->each(function ($user) {
-            $user->assignRole('user');
-        });
+        User::create([
+            'first_name' => 'Admin',
+            'last_name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('password'),
+        ])->assignRole('admin');
 
         $permissions = [
             'user.view.id',
@@ -39,6 +42,7 @@ class DatabaseSeeder extends Seeder
             'user.view.locale',
             'user.view.created_at',
             'user.view.updated_at',
+            'user.view.roles',
         ];
 
         foreach ($permissions as $permission) {

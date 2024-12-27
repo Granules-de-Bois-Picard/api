@@ -12,4 +12,6 @@ interface ArticleRepositoryInterface
     public function show($identifier);
     public function update(ArticleUpdateRequest $request, $id);
     public function destroy($id);
+
+    public function lastArticle();
 }

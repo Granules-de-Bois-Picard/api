@@ -66,4 +66,14 @@ class ArticleController extends Controller
             return ApiResponseClass::throw($e, $e->getMessage());
         }
     }
+
+    public function lastArticle(): JsonResponse
+    {
+        try {
+            $article = $this->articleRepositoryInterface->lastArticle();
+            return ApiResponseClass::sendResponse($article, 'Last article retrieved successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
 }

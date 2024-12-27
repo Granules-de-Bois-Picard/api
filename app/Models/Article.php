@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static create(mixed $validated)
  * @method static where(string $string, string $slug)
  * @method static findOrFail($id)
+ * @method static firstOrFail()
  */
 class Article extends Model
 {

@@ -96,4 +96,13 @@ class ArticleRepository implements ArticleRepositoryInterface
 
         return $slug;
     }
+
+    public function lastArticle(): ?array
+    {
+        $article = Article::where('is_published', true)
+            ->orderBy('created_at', 'desc')
+            ->firstOrFail();
+
+        return fractal($article, new ArticleTransformer())->toArray();
+    }
 }

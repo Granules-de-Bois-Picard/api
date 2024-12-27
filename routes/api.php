@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 Route::group(['prefix' => 'articles'], function () {
     Route::get('/', [ArticleController::class, 'index']);
+    Route::get('/last', [ArticleController::class, 'lastArticle']);
     Route::get('{identifier}', [ArticleController::class, 'show'])->where('identifier', '[0-9a-fA-F\-]{36}|[a-zA-Z0-9\-]+');
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
