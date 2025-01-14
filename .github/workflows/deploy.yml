@@ -41,7 +41,7 @@ jobs:
               git pull origin production
             fi
 
-            composer install --no-dev --prefer-dist --optimize-autoloader
+            composer2 install --no-dev --prefer-dist --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
