@@ -50,7 +50,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            cd /domains/luwa.fr/public_html/gp-api
+            cd domains/luwa.fr/public_html/gp-api
             git pull origin main
             composer2 install --no-interaction --prefer-dist --optimize-autoloader
             php artisan migrate --force
