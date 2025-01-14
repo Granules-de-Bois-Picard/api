@@ -1,33 +1,65 @@
-- name: Deploy to server
-  run: |
-    ssh -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
-      PROJECT_PATH="${{ secrets.PROJECT_PATH }}"
+name: Deploy Laravel App to Production
 
-      if [ ! -d "$PROJECT_PATH" ]; then
-        mkdir -p "$PROJECT_PATH"
-      fi
+on:
+  push:
+    branches:
+      - production
 
-      cd "$PROJECT_PATH"
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
 
-      if [ ! -d ".git" ]; then
-        git clone https://github.com/Granules-de-Bois-Picard/api.git .
-      else
-        git pull origin production
-      fi
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      if [ ! -f .env ]; then
-        cp .env.example .env
-        echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> .env
-        echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
-        echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-        echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
-        echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
-      fi
+      - name: Set up PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, bcmath, intl, xml, curl, zip, opcache
 
-      composer2 install --no-dev --prefer-dist --optimize-autoloader
-      php artisan migrate --force
-      php artisan config:cache
-      php artisan route:cache
-      php artisan view:cache
-    EOF
+      - name: Install dependencies
+        run: |
+          composer global require "composer/composer:2.*"  # Installe Composer 2
+          composer install --no-dev --prefer-dist --optimize-autoloader
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
+
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+            PROJECT_PATH="${{ secrets.PROJECT_PATH }}"
+
+            if [ ! -d "$PROJECT_PATH" ]; then
+              mkdir -p "$PROJECT_PATH"
+            fi
+
+            cd "$PROJECT_PATH"
+
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/Granules-de-Bois-Picard/api.git .
+            else
+              git pull origin production
+            fi
+
+            if [ ! -f .env ]; then
+              cp .env.example .env
+              echo "DB_CONNECTION=${{ secrets.DB_CONNECTION }}" >> .env
+              echo "DB_DATABASE=${{ secrets.DB_DATABASE }}" >> .env
+              echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+              echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+              echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+              echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+            fi
+
+            composer2 install --no-dev --prefer-dist --optimize-autoloader
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+          EOF
