@@ -52,7 +52,7 @@ jobs:
           script: |
             cd domains/luwa.fr/public_html/gp-api
             git pull origin production
-            composer2 install --no-interaction --prefer-dist --optimize-autoloader
+            composer install --no-interaction --prefer-dist --optimize-autoloader
             php artisan migrate --force
             php artisan cache:clear
             php artisan config:cache
