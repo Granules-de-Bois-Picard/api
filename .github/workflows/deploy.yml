@@ -36,7 +36,7 @@ jobs:
             cd domains/luwa.fr/public_html/gp-api
 
             if [ ! -d ".git" ]; then
-              git clone https://github.com/Granules-de-Bois-Picard/api.git
+              git clone https://github.com/Granules-de-Bois-Picard/api.git .
             else
               git pull origin production
             fi
