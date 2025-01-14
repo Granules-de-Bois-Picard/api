@@ -34,7 +34,13 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
             cd domains/luwa.fr/public_html/gp-api
-            git pull origin production
+
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/Granules-de-Bois-Picard/api.git
+            else
+              git pull origin production
+            fi
+
             composer install --no-dev --prefer-dist --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
