@@ -1,80 +1,89 @@
-name: Deploy Laravel Application
+name: Deploy Laravel App to Production
 
 on:
   push:
-    branches: [ production ]
+    branches:
+      - production
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Setup PHP
+      - name: Set up PHP 8.3
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_mysql, bcmath, zip
-          coverage: none
+          extensions: mbstring, bcmath, intl, xml, curl, zip, opcache
 
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Generate key
-        run: php artisan key:generate
-
-      - name: Directory Permissions
-        run: chmod -R 777 storage bootstrap/cache
-
-      - name: Clear Config
+      - name: Install dependencies
         run: |
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan route:clear
-          php artisan view:clear
+          composer global require "composer/composer:2.*"  # Installe Composer 2
+          composer install --no-dev --prefer-dist --optimize-autoloader
 
-      - name: Create Database
-        run: |
-          touch database/database.sqlite
-          php artisan migrate --force
-
-      - name: Execute tests
-        run: vendor/bin/phpunit
-
-      - name: 📂 Sync files
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          server: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          port: ${{ secrets.SERVER_PORT }}
-          server-dir: domains/luwa.fr/public_html/gp-api/
-          protocol: sftp
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/vendor/**
-            **/tests/**
-            README.md
-            .env.example
 
-      - name: 🎉 Post-deployment commands
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          script: |
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SERVER_PORT }} ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
             cd domains/luwa.fr/public_html/gp-api
-            composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev
+            git pull origin production
+            composer install --no-dev --prefer-dist --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
-            php artisan optimize
+          EOF
+        env:
+          APP_DEBUG: ${{ secrets.APP_DEBUG }}
+          APP_ENV: ${{ secrets.APP_ENV }}
+          APP_FAKER_LOCALE: ${{ secrets.APP_FAKER_LOCALE }}
+          APP_FALLBACK_LOCALE: ${{ secrets.APP_FALLBACK_LOCALE }}
+          APP_KEY: ${{ secrets.APP_KEY }}
+          APP_LOCALE: ${{ secrets.APP_LOCALE }}
+          APP_MAINTENANCE_DRIVER: ${{ secrets.APP_MAINTENANCE_DRIVER }}
+          APP_NAME: ${{ secrets.APP_NAME }}
+          APP_TIMEZONE: ${{ secrets.APP_TIMEZONE }}
+          APP_URL: ${{ secrets.APP_URL }}
+          BCRYPT_ROUNDS: ${{ secrets.BCRYPT_ROUNDS }}
+          BROADCAST_CONNECTION: ${{ secrets.BROADCAST_CONNECTION }}
+          CACHE_STORE: ${{ secrets.CACHE_STORE }}
+          DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          FILESYSTEM_DISK: ${{ secrets.FILESYSTEM_DISK }}
+          LOG_CHANNEL: ${{ secrets.LOG_CHANNEL }}
+          LOG_DEPRECATIONS_CHANNEL: ${{ secrets.LOG_DEPRECATIONS_CHANNEL }}
+          LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
+          LOG_STACK: ${{ secrets.LOG_STACK }}
+          MAIL_ENCRYPTION: ${{ secrets.MAIL_ENCRYPTION }}
+          MAIL_FROM_ADDRESS: ${{ secrets.MAIL_FROM_ADDRESS }}
+          MAIL_FROM_NAME: ${{ secrets.MAIL_FROM_NAME }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_MAILER: ${{ secrets.MAIL_MAILER }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MEMCACHED_HOST: ${{ secrets.MEMCACHED_HOST }}
+          PHP_CLI_SERVER_WORKERS: ${{ secrets.PHP_CLI_SERVER_WORKERS }}
+          QUEUE_CONNECTION: ${{ secrets.QUEUE_CONNECTION }}
+          REDIS_CLIENT: ${{ secrets.REDIS_CLIENT }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          SESSION_DOMAIN: ${{ secrets.SESSION_DOMAIN }}
+          SESSION_DRIVER: ${{ secrets.SESSION_DRIVER }}
+          SESSION_ENCRYPT: ${{ secrets.SESSION_ENCRYPT }}
+          SESSION_LIFETIME: ${{ secrets.SESSION_LIFETIME }}
+          SESSION_PATH: ${{ secrets.SESSION_PATH }}
+          VITE_APP_NAME: ${{ secrets.VITE_APP_NAME }}
