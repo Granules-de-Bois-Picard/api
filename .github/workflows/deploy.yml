@@ -49,6 +49,12 @@ jobs:
 
             if [ ! -f .env ]; then
               cp .env.example .env
+              sed -i '/^#DB_CONNECTION=/s/^#//g' .env
+              sed -i '/^#DB_DATABASE=/s/^#//g' .env
+              sed -i '/^#DB_HOST=/s/^#//g' .env
+              sed -i '/^#DB_PASSWORD=/s/^#//g' .env
+              sed -i '/^#DB_PORT=/s/^#//g' .env
+              sed -i '/^#DB_USERNAME=/s/^#//g' .env
             fi
 
             sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=${{ secrets.DB_CONNECTION }}/" .env
