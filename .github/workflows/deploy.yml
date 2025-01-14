@@ -51,9 +51,22 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd domains/luwa.fr/public_html/gp-api
+
+            echo "Répertoire actuel : $(pwd)"
+
+            ls -la
+
+            if [ ! -f composer.json ]; then
+              echo "Erreur : composer.json introuvable dans $(pwd)"
+              exit 1
+            fi
+
             git pull origin production
+
             composer install --no-interaction --prefer-dist --optimize-autoloader
+
             php artisan migrate --force
+
             php artisan cache:clear
             php artisan config:cache
             php artisan route:cache
