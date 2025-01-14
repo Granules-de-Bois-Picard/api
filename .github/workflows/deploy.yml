@@ -41,55 +41,13 @@ jobs:
               git pull origin production
             fi
 
+            if [ ! -f ".env" ]; then
+              cp .env.example .env
+            fi
+
             composer2 install --no-dev --prefer-dist --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
           EOF
-        env:
-          APP_DEBUG: ${{ secrets.APP_DEBUG }}
-          APP_ENV: ${{ secrets.APP_ENV }}
-          APP_FAKER_LOCALE: ${{ secrets.APP_FAKER_LOCALE }}
-          APP_FALLBACK_LOCALE: ${{ secrets.APP_FALLBACK_LOCALE }}
-          APP_KEY: ${{ secrets.APP_KEY }}
-          APP_LOCALE: ${{ secrets.APP_LOCALE }}
-          APP_MAINTENANCE_DRIVER: ${{ secrets.APP_MAINTENANCE_DRIVER }}
-          APP_NAME: ${{ secrets.APP_NAME }}
-          APP_TIMEZONE: ${{ secrets.APP_TIMEZONE }}
-          APP_URL: ${{ secrets.APP_URL }}
-          BCRYPT_ROUNDS: ${{ secrets.BCRYPT_ROUNDS }}
-          BROADCAST_CONNECTION: ${{ secrets.BROADCAST_CONNECTION }}
-          CACHE_STORE: ${{ secrets.CACHE_STORE }}
-          DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          DB_PORT: ${{ secrets.DB_PORT }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          FILESYSTEM_DISK: ${{ secrets.FILESYSTEM_DISK }}
-          LOG_CHANNEL: ${{ secrets.LOG_CHANNEL }}
-          LOG_DEPRECATIONS_CHANNEL: ${{ secrets.LOG_DEPRECATIONS_CHANNEL }}
-          LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
-          LOG_STACK: ${{ secrets.LOG_STACK }}
-          MAIL_ENCRYPTION: ${{ secrets.MAIL_ENCRYPTION }}
-          MAIL_FROM_ADDRESS: ${{ secrets.MAIL_FROM_ADDRESS }}
-          MAIL_FROM_NAME: ${{ secrets.MAIL_FROM_NAME }}
-          MAIL_HOST: ${{ secrets.MAIL_HOST }}
-          MAIL_MAILER: ${{ secrets.MAIL_MAILER }}
-          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
-          MAIL_PORT: ${{ secrets.MAIL_PORT }}
-          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
-          MEMCACHED_HOST: ${{ secrets.MEMCACHED_HOST }}
-          PHP_CLI_SERVER_WORKERS: ${{ secrets.PHP_CLI_SERVER_WORKERS }}
-          QUEUE_CONNECTION: ${{ secrets.QUEUE_CONNECTION }}
-          REDIS_CLIENT: ${{ secrets.REDIS_CLIENT }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          SESSION_DOMAIN: ${{ secrets.SESSION_DOMAIN }}
-          SESSION_DRIVER: ${{ secrets.SESSION_DRIVER }}
-          SESSION_ENCRYPT: ${{ secrets.SESSION_ENCRYPT }}
-          SESSION_LIFETIME: ${{ secrets.SESSION_LIFETIME }}
-          SESSION_PATH: ${{ secrets.SESSION_PATH }}
-          VITE_APP_NAME: ${{ secrets.VITE_APP_NAME }}
