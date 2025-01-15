@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'backoffice' => [
+        'url' => env('BACKOFFICE_URL'),
+    ],
+
+    'website' => [
+        'url' => env('WEBSITE_URL'),
+    ],
 ];
