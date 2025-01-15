@@ -51,6 +51,10 @@ jobs:
               cp .env.example .env
             fi
 
+            diff .env.example .env | grep "^> " | cut -c3- | grep -v "^$" | while read line; do
+              echo "$line" >> .env
+            done
+
             sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=${{ secrets.DB_CONNECTION }}/" .env
             sed -i "s/^DB_HOST=.*/DB_HOST=${{ secrets.DB_HOST }}/" .env
             sed -i "s/^DB_PORT=.*/DB_PORT=${{ secrets.DB_PORT }}/" .env
