@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\UserController;
@@ -22,8 +23,6 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('check', [AuthController::class, 'check']);
         Route::post('logout', [AuthController::class, 'logout']);
     });
-
-
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -42,6 +41,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/', [RoleController::class, 'store']);
         Route::put('{id}', [RoleController::class, 'update'])->whereNumber('id');
         Route::delete('{id}', [RoleController::class, 'destroy'])->whereNumber('id');
+    });
+
+    Route::group(['prefix' => 'permissions'], function () {
+        Route::get('/all', [PermissionController::class, 'all']);
+        Route::get('/', [PermissionController::class, 'index']);
+        Route::get('{id}', [PermissionController::class, 'show'])->whereNumber('id');
+        Route::post('/', [PermissionController::class, 'store']);
+        Route::put('{id}', [PermissionController::class, 'update'])->whereNumber('id');
+        Route::delete('{id}', [PermissionController::class, 'destroy'])->whereNumber('id');
     });
 });
 
