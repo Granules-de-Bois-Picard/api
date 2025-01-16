@@ -15,6 +15,7 @@ class RoleTransformer extends TransformerAbstract
         $data = [
             'id' => $role->id,
             'name' => $role->name,
+            'permissions' => $role->permissions->pluck('name'),
             'created_at' => $role->created_at->toDateTimeString(),
             'updated_at' => $role->updated_at->toDateTimeString(),
         ];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
 use App\Http\Requests\RoleStoreRequest;
+use App\Http\Requests\RoleUpdateRequest;
 use App\Interfaces\RoleRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -42,6 +43,26 @@ class RoleController extends Controller
         try {
             $role = $this->roleRepositoryInterface->show($id);
             return ApiResponseClass::sendResponse($role, 'Role retrieved successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
+
+    public function update(RoleUpdateRequest $request, $id): JsonResponse
+    {
+        try {
+            $role = $this->roleRepositoryInterface->update($request, $id);
+            return ApiResponseClass::sendResponse($role, 'Role updated successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
+
+    public function destroy($id): JsonResponse
+    {
+        try {
+            $role = $this->roleRepositoryInterface->destroy($id);
+            return ApiResponseClass::sendResponse($role, 'Role deleted successfully');
         } catch (\Exception $e) {
             return ApiResponseClass::throw($e, $e->getMessage());
         }

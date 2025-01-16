@@ -39,4 +39,24 @@ class RoleRepository implements RoleRepositoryInterface
 
         return fractal($role, new RoleTransformer())->toArray();
     }
+
+    public function update($request, $id): ?array
+    {
+        $role = Role::findOrFail($id);
+        $permissions = $request->permissions;
+
+        $role->syncPermissions($permissions);
+        $role->update($request->validated());
+
+        return fractal($role, new RoleTransformer())->toArray();
+    }
+
+    public function destroy($id): ?bool
+    {
+        $role = Role::findOrFail($id);
+
+        $role->syncPermissions([]);
+
+        return $role->delete();
+    }
 }
