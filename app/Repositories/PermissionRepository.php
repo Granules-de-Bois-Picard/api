@@ -28,11 +28,12 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     public function index(): ?array
     {
+
         $permissions = QueryBuilder::for(Permission::class)
             ->orderBy('created_at', 'desc')
-            ->paginate(11);
+            ->paginate(14);
 
-        return fractal($permissions, new Permission())->toArray();
+        return fractal($permissions, new PermissionTransformer())->toArray();
     }
 
     public function store($request): ?array
