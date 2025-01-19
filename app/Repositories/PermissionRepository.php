@@ -38,6 +38,10 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     public function store($request): ?array
     {
+        if(!isset($request->guard_name)){
+            $request->merge(['guard_name' => 'web']);
+        }
+
         $permission = Permission::create($request->validated());
 
         return fractal($permission, new PermissionTransformer())->toArray();
