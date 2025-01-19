@@ -9,6 +9,13 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class RoleRepository implements RoleRepositoryInterface
 {
+    private string $guard_name;
+
+    public function __construct()
+    {
+        $this->guard_name = 'web';
+    }
+
     public function index(): ?array
     {
         $users = QueryBuilder::for(Role::class)
@@ -20,7 +27,10 @@ class RoleRepository implements RoleRepositoryInterface
 
     public function store($request): ?array
     {
-        $role = Role::create($request->validated());
+        $role = Role::create([
+            'name' => $request->name,
+            'guard_name' => $this->guard_name,
+        ]);
 
         return fractal($role, new RoleTransformer())->toArray();
     }

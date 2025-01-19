@@ -17,10 +17,7 @@ class DatabaseSeeder extends Seeder
         $roles = ['admin', 'user'];
 
         foreach ($roles as $role) {
-            Role::create([
-                'name' => $role,
-                'guard_name' => 'sanctum'
-            ]);
+            Role::create(['name' => $role]);
         }
 
         User::create([
@@ -49,10 +46,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create([
-                'name' => $permission,
-                'guard_name' => 'sanctum'
-            ]);
+            Permission::create(['name' => $permission]);
         }
 
         $role = Role::findByName('admin');
