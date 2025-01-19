@@ -9,12 +9,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class RoleRepository implements RoleRepositoryInterface
 {
-    /**
-     * Create a new class instance.
-     */
+    private string $guard_name;
+
     public function __construct()
     {
-        //
+        $this->guard_name = config('auth.defaults.guard');
     }
 
     public function index(): ?array
@@ -28,11 +27,10 @@ class RoleRepository implements RoleRepositoryInterface
 
     public function store($request): ?array
     {
-        if(!isset($request->guard_name)){
-            $request->merge(['guard_name' => 'web']);
-        }
-
         $role = Role::create($request->validated());
+
+        $role->guard_name = $this->guard_name;
+        $role->save();
 
         return fractal($role, new RoleTransformer())->toArray();
     }

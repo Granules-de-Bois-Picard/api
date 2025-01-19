@@ -9,12 +9,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class PermissionRepository implements PermissionRepositoryInterface
 {
-    /**
-     * Create a new class instance.
-     */
+    private string $guard_name;
+
     public function __construct()
     {
-        //
+        $this->guard_name = config('auth.defaults.guard');
     }
 
     public function all(): ?array
@@ -38,11 +37,10 @@ class PermissionRepository implements PermissionRepositoryInterface
 
     public function store($request): ?array
     {
-        if(!isset($request->guard_name)){
-            $request->merge(['guard_name' => 'web']);
-        }
-
         $permission = Permission::create($request->validated());
+
+        $permission->guard_name = $this->guard_name;
+        $permission->save();
 
         return fractal($permission, new PermissionTransformer())->toArray();
     }
