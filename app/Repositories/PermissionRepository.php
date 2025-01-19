@@ -9,13 +9,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class PermissionRepository implements PermissionRepositoryInterface
 {
-    private string $guard_name;
-
-    public function __construct()
-    {
-        $this->guard_name = config('auth.defaults.guard');
-    }
-
     public function all(): ?array
     {
         $permissions = QueryBuilder::for(Permission::class)
@@ -38,9 +31,6 @@ class PermissionRepository implements PermissionRepositoryInterface
     public function store($request): ?array
     {
         $permission = Permission::create($request->validated());
-
-        $permission->guard_name = $this->guard_name;
-        $permission->save();
 
         return fractal($permission, new PermissionTransformer())->toArray();
     }
