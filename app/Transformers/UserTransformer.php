@@ -16,7 +16,7 @@ class UserTransformer extends TransformerAbstract
             'id' => $user->id,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
-            'profile_picture' => asset($user->profile_picture),
+            'profile_picture' => $user->profile_picture ? asset($user->profile_picture) : null,
             'email' => $user->email,
             'locale' => $user->locale,
             'roles' => $user->roles->pluck('name'),
