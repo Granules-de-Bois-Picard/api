@@ -20,7 +20,10 @@ class LocalFileService
 
     public function deleteFile(string $url): void
     {
-        $path = str_replace('/storage/', '', $url);
-        Storage::delete($path);
+        $path = str_replace('/storage/', 'public/', $url);
+
+        if (Storage::exists($path)) {
+            Storage::delete($path);
+        }
     }
 }
