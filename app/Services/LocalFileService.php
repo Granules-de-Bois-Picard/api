@@ -13,7 +13,7 @@ class LocalFileService
 
         Storage::disk($disk)->put($fileName, file_get_contents($file));
 
-        return Storage::url($fileName);
+        return Storage::disk($disk)->url($fileName);
     }
 
     public function deleteFile(string $url): void
