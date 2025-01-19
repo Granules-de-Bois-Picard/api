@@ -65,10 +65,10 @@ class UserRepository implements UserRepositoryInterface
 
         if ($request->hasFile('profile_picture')) {
             if ($user->profile_picture) {
-                $this->localFileService->deleteFile($user->profile_picture);
+                $this->localFileService->deleteFile($user->profile_picture, 'profile_pictures');
             }
 
-            $url = $this->localFileService->uploadFile($request->file('profile_picture'), 'public/profile_pictures');
+            $url = $this->localFileService->uploadFile($request->file('profile_picture'), 'profile_pictures');
 
             $user->update([
                 'profile_picture' => $url,

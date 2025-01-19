@@ -18,12 +18,12 @@ class LocalFileService
         return Storage::url($disk . '/' . $fileName);
     }
 
-    public function deleteFile(string $url): void
+    public function deleteFile(string $url, $disk = ''): void
     {
-        $path = str_replace('/storage/', 'public/', $url);
+        $url = str_replace('/storage/' . $disk, '', $url);
 
-        if (Storage::exists($path)) {
-            Storage::delete($path);
+        if (Storage::disk($disk)->exists($url)) {
+            Storage::disk($disk)->delete($url);
         }
     }
 }
