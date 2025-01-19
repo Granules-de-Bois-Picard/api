@@ -61,6 +61,10 @@ jobs:
             sed -i "s/^BACKOFFICE_URL=.*/BACKOFFICE_URL=${{ secrets.BACKOFFICE_URL }}/" .env
             sed -i "s/^WEBSITE_URL=.*/WEBSITE_URL=${{ secrets.WEBSITE_URL }}/" .env
 
+            if [ ! -d "public/storage" ]; then
+              ln -s ../storage/app/public public/storage
+            fi
+
             composer2 install --no-dev --prefer-dist --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache

@@ -7,13 +7,13 @@ use Illuminate\Support\Facades\Storage;
 
 class LocalFileService
 {
-    public function uploadFile(UploadedFile $file, $folder = 'images', $disk = null): string
+    public function uploadFile(UploadedFile $file, $disk = ''): string
     {
         $fileName = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
 
-        Storage::disk($disk)->putFileAs($folder, $file, $fileName);
+        Storage::disk($disk)->put($fileName, file_get_contents($file));
 
-        return Storage::url($folder . '/' . $fileName);
+        return Storage::url($fileName);
     }
 
     public function deleteFile(string $url): void
