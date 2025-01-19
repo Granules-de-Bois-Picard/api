@@ -28,10 +28,6 @@ class RoleRepository implements RoleRepositoryInterface
 
     public function store($request): ?array
     {
-        if (!isset($request->guard_name)) {
-            $request->guard_name = 'web';
-        }
-
         $role = Role::create($request->validated());
 
         return fractal($role, new RoleTransformer())->toArray();
