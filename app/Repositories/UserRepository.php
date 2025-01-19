@@ -68,7 +68,9 @@ class UserRepository implements UserRepositoryInterface
                 $this->localFileService->deleteFile($user->profile_picture, 'profile_pictures');
             }
 
-            $url = $this->localFileService->uploadFile($request->file('profile_picture'), 'profile_pictures');
+            $file = $request->file('profile_picture');
+            $newFileName = $user->id . '_' . time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $url = $this->localFileService->uploadFile($request->file('profile_picture'), 'profile_pictures', $newFileName);
 
             $user->update([
                 'profile_picture' => $url,

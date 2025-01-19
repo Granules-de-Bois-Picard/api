@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\Storage;
 
 class LocalFileService
 {
-    public function uploadFile(UploadedFile $file, $disk = ''): string
+    public function uploadFile(UploadedFile $file, $disk = '', $fileName = null): string
     {
-        $fileName = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+        if ($fileName === null) {
+            $fileName = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+        }
 
         Storage::disk($disk)->put($fileName, file_get_contents($file));
 
