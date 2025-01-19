@@ -13,15 +13,14 @@ class LocalFileService
 
         Storage::disk($disk)->put($fileName, file_get_contents($file));
 
-        // it should work but if the disk is not a folder it will not work
+        // return : /storage/$disk/$fileName
         // TODO : refactor this
         return Storage::url($disk . '/' . $fileName);
     }
 
     public function deleteFile(string $url): void
     {
-        $path = str_replace(Storage::url(''), '', $url);
-
+        $path = str_replace('/storage/', '', $url);
         Storage::delete($path);
     }
 }
