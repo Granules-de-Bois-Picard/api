@@ -5,20 +5,22 @@ namespace App\Repositories;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\UserUploadProfilePictureRequest;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use App\Services\LocalFileService;
 use App\Transformers\UserTransformer;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserRepository implements UserRepositoryInterface
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
+    private LocalFileService $localFileService;
+
+    public function __construct(LocalFileService $localFileService)
     {
-        //
+        $this->localFileService = $localFileService;
     }
 
     public function index(): ?array
@@ -32,7 +34,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function store(UserStoreRequest $request)
     {
-
+        //
     }
 
     public function show($id): ?array
@@ -57,6 +59,30 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @throws Exception
      */
+    public function uploadProfilePicture(UserUploadProfilePictureRequest $request, $id): ?array
+    {
+        $user = User::findOrFail($id);
+
+        if ($request->hasFile('profile_picture')) {
+            if ($user->profile_picture) {
+                $this->localFileService->deleteFile($user->profile_picture);
+            }
+
+            $url = $this->localFileService->uploadFile($request->file('profile_picture'), 'profile_pictures', 'public');
+
+            $user->update([
+                'profile_picture' => $url,
+            ]);
+
+            return fractal($user, new UserTransformer())->toArray();
+        }
+
+        throw new Exception('No profile picture uploaded.');
+    }
+
+    /**
+     * @throws Exception
+     */
     public function changePassword(UserChangePasswordRequest $request, $id): ?array
     {
         $user = User::findOrFail($id);
@@ -74,6 +100,6 @@ class UserRepository implements UserRepositoryInterface
 
     public function destroy($id)
     {
-
+        //
     }
 }

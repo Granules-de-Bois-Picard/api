@@ -6,6 +6,7 @@ use App\Classes\ApiResponseClass;
 use App\Http\Requests\UserChangePasswordRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\UserUploadProfilePictureRequest;
 use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
@@ -48,6 +49,16 @@ class UserController extends Controller
         try {
             $user = $this->userRepositoryInterface->update($request, $id);
             return ApiResponseClass::sendResponse($user, 'User updated successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
+
+    public function uploadProfilePicture(UserUploadProfilePictureRequest $request, $id): JsonResponse
+    {
+        try {
+            $user = $this->userRepositoryInterface->uploadProfilePicture($request, $id);
+            return ApiResponseClass::sendResponse($user, 'Profile picture updated successfully');
         } catch (\Exception $e) {
             return ApiResponseClass::throw($e, $e->getMessage());
         }

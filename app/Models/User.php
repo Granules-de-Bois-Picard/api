@@ -26,6 +26,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property mixed $created_at
  * @property mixed $updated_at
  * @property mixed $roles
+ * @property mixed $profile_picture
  */
 class User extends Authenticatable
 {
@@ -40,6 +41,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'profile_picture',
         'email',
         'locale',
         'password',
