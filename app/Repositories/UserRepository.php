@@ -69,7 +69,7 @@ class UserRepository implements UserRepositoryInterface
             }
 
             $file = $request->file('profile_picture');
-            $newFileName = $user->id . '_' . time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $newFileName = $user->id . '_' . time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
             $url = $this->localFileService->uploadFile($request->file('profile_picture'), 'profile_pictures', $newFileName);
 
             $user->update([
