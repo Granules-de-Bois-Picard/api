@@ -18,6 +18,7 @@ class FileTransformer extends TransformerAbstract
             'url' => asset($file->path),
             'size' => $file->size,
             'extension' => $file->extension,
+            'is_protected' => $file->is_protected,
             'created_at' => $file->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $file->updated_at->format('Y-m-d H:i:s'),
         ];

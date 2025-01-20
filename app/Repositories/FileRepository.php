@@ -48,6 +48,10 @@ class FileRepository implements FileRepositoryInterface
     {
         $file = File::findOrFail($id);
 
+        if ($file->is_protected) {
+            return false;
+        }
+
         $this->localFileService->deleteFile($file->path, 'files');
 
         return $file->delete();
