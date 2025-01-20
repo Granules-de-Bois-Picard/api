@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SlideController;
@@ -26,6 +27,12 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::group(['prefix' => 'files'], function () {
+        Route::get('/', [FileController::class, 'index']);
+        Route::post('upload', [FileController::class, 'upload']);
+        Route::delete('{id}', [FileController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
+    });
+
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', [UserController::class, 'index']);
         Route::get('{id}', [UserController::class, 'show'])->where('id', '[0-9a-fA-F\-]{36}');

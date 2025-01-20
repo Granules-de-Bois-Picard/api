@@ -15,8 +15,6 @@ class LocalFileService
 
         Storage::disk($disk)->put($fileName, file_get_contents($file));
 
-        // return : /storage/$disk/$fileName
-        // TODO : refactor this
         return Storage::url($disk . '/' . $fileName);
     }
 

@@ -45,6 +45,11 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\StatusRepositoryInterface',
             'App\Repositories\StatusRepository'
         );
+
+        $this->app->bind(
+            'App\Interfaces\FileRepositoryInterface',
+            'App\Repositories\FileRepository'
+        );
     }
 
     /**
