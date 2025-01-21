@@ -26,7 +26,7 @@ class FileUploadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => 'required|file|max:5120|mimes:jpeg,jpg,png,gif,svg,mp4,webm,ogg,mp3,wav,flac,txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar'
+            'file' => 'required|file|max:5120|mimes:jpeg,jpg,png,gif,svg,mp4,webm,ogg,mp3,wav,flac,txt,pdf,doc,docx,xls,xlsx,ppt,pptx,zip,rar,bmp,webp,csv,json,js,html'
         ];
     }
 
