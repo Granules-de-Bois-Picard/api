@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/', [UserController::class, 'store']);
         Route::post('{id}/upload-profile-picture', [UserController::class, 'uploadProfilePicture'])->where('id', '[0-9a-fA-F\-]{36}');
         Route::put('{id}', [UserController::class, 'update'])->where('id', '[0-9a-fA-F\-]{36}');
+        Route::put('{id}/change-role', [UserController::class, 'changeRole'])->where('id', '[0-9a-fA-F\-]{36}');
         Route::put('{id}/change-password', [UserController::class, 'changePassword'])->where('id', '[0-9a-fA-F\-]{36}');
         Route::post('{id}/request-password-reset', [UserController::class, 'requestPasswordReset'])->where('id', '[0-9a-fA-F\-]{36}');
         Route::delete('{id}', [UserController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');

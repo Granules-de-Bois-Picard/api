@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Http\Requests\UserChangePasswordRequest;
+use App\Http\Requests\UserChangeRoleRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UserUploadProfilePictureRequest;
@@ -96,6 +97,15 @@ class UserRepository implements UserRepositoryInterface
         $user->update([
             'password' => bcrypt($request->validated()['password']),
         ]);
+
+        return fractal($user, new UserTransformer())->toArray();
+    }
+
+    public function changeRole(UserChangeRoleRequest $request, $id): ?array
+    {
+        $user = User::findOrFail($id);
+
+        $user->syncRoles($request->role);
 
         return fractal($user, new UserTransformer())->toArray();
     }
