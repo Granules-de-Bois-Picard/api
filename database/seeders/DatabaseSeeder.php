@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
             'user.view.locale',
             'user.view.created_at',
             'user.view.updated_at',
-            'user.view.roles',
+            'user.view.role',
         ];
 
         foreach ($permissions as $permission) {

@@ -74,6 +74,11 @@ class UserController extends Controller
         }
     }
 
+    public function requestPasswordReset($id)
+    {
+        // TODO: Implement requestPasswordReset() method.
+    }
+
     public function destroy($id)
     {
         //

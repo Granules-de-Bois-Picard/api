@@ -19,7 +19,7 @@ class UserTransformer extends TransformerAbstract
             'profile_picture' => $user->profile_picture ? asset($user->profile_picture) : null,
             'email' => $user->email,
             'locale' => $user->locale,
-            'roles' => $user->roles->pluck('name'),
+            'role' => $user->roles->pluck('name')[0],
             "permissions" => $user->getAllPermissions()->pluck('name'),
             'created_at' => $user->created_at->toDateTimeString(),
             'updated_at' => $user->updated_at->toDateTimeString(),
