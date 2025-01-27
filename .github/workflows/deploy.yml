@@ -61,6 +61,14 @@ jobs:
             sed -i "s/^BACKOFFICE_URL=.*/BACKOFFICE_URL=${{ secrets.BACKOFFICE_URL }}/" .env
             sed -i "s/^WEBSITE_URL=.*/WEBSITE_URL=${{ secrets.WEBSITE_URL }}/" .env
 
+            sed -i "s/^MAIL_MAILER=.*/MAIL_MAILER=${{ secrets.MAIL_MAILER }}/" .env
+            sed -i "s/^MAIL_HOST=.*/MAIL_HOST=${{ secrets.MAIL_HOST }}/" .env
+            sed -i "s/^MAIL_PORT=.*/MAIL_PORT=${{ secrets.MAIL_PORT }}/" .env
+            sed -i "s/^MAIL_USERNAME=.*/MAIL_USERNAME=${{ secrets.MAIL_USERNAME }}/" .env
+            sed -i "s/^MAIL_PASSWORD=.*/MAIL_PASSWORD=${{ secrets.MAIL_PASSWORD }}/" .env
+            sed -i "s/^MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=${{ secrets.MAIL_ENCRYPTION }}/" .env
+            sed -i "s/^MAIL_FROM_ADDRESS=.*/MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}/" .env
+
             composer2 install --no-dev --prefer-dist --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
