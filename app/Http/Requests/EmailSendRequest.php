@@ -33,9 +33,10 @@ class EmailSendRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'to' => 'required|email',
+            'from' => 'required|email',
             'subject' => 'required|string|max:255',
             'body' => 'required|string',
+            'full_name' => 'required|string|max:255',
             'recaptchaToken' => ['required', function ($attribute, $value, $fail) {
                 if (!$this->checkRecaptchaToken($value)) {
                     $fail('The recaptcha token is invalid.');

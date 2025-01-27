@@ -1,19 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Granulés de Bois Picard - Contact Mail</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvelle demande de contact - Granulés de Bois Picard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .message-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+        }
+        .info-section {
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .info-item {
+            margin-bottom: 8px;
+        }
+        .label {
+            font-weight: bold;
+            color: #2C5530;
+        }
+        .message-content {
+            background-color: #ffffff;
+            padding: 15px;
+            border: 1px solid #eeeeee;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        h1 {
+            color: #2C5530;
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #2C5530;
+        }
+    </style>
 </head>
 <body>
-<h1>{{ $mailData['title'] }}</h1>
-<p>{{ $mailData['body'] }}</p>
+<div class="message-container">
+    <h1>{{ $mailData['title'] }}</h1>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    <div class="info-section">
+        <div class="info-item">
+            <span class="label">Date de réception :</span>
+            {{ date('d/m/Y H:i') }}
+        </div>
+        <div class="info-item">
+            <span class="label">Nom complet :</span>
+            {{ $mailData['full_name'] }}
+        </div>
+        <div class="info-item">
+            <span class="label">Email :</span>
+            {{ $mailData['from'] }}
+        </div>
+    </div>
 
-<p>Thank you</p>
+    <div class="message-content">
+        <div class="label">Message du client :</div>
+        <p>{{ $mailData['body'] }}</p>
+    </div>
+</div>
 </body>
 </html>
