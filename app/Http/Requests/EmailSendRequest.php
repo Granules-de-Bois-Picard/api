@@ -56,6 +56,32 @@ class EmailSendRequest extends FormRequest
 
     public function checkRecaptchaToken($token): bool
     {
-        return true;
+        $recaptcha_key = config('google.recaptcha.key');
+        $url = config('google.recaptcha.url');
+
+        $data = [
+            'secret' => $recaptcha_key,
+            'response' => $token
+        ];
+
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            ]
+        ];
+
+        try {
+            $context = stream_context_create($options);
+            $response = file_get_contents($url, false, $context);
+            if ($response === false) {
+                return false;
+            }
+            $result = json_decode($response);
+            return $result->success ?? false;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

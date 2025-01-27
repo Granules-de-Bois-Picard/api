@@ -71,6 +71,8 @@ jobs:
             sed -i "s/^MAIL_ENCRYPTION=.*/MAIL_ENCRYPTION=${{ secrets.MAIL_ENCRYPTION }}/" .env
             sed -i "s/^MAIL_FROM_ADDRESS=.*/MAIL_FROM_ADDRESS=${{ secrets.MAIL_FROM_ADDRESS }}/" .env
 
+            sed -i "s/^RECAPTCHA_KEY=.*/RECAPTCHA_KEY=${{ secrets.RECAPTCHA_KEY }}/" .env
+
             composer2 install --no-dev --prefer-dist --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
