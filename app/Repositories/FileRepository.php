@@ -7,6 +7,7 @@ use App\Interfaces\FileRepositoryInterface;
 use App\Models\File;
 use App\Services\LocalFileService;
 use App\Transformers\FileTransformer;
+use Exception;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class FileRepository implements FileRepositoryInterface
@@ -42,6 +43,32 @@ class FileRepository implements FileRepositoryInterface
 
         return fractal($file, new FileTransformer())->toArray();
 
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function replace($id, FileUploadRequest $request): ?array
+    {
+        $file = File::findOrFail($id);
+
+        if (!$file) {
+            throw new Exception('File not found');
+        }
+
+        if ($file->extension !== $request->file('file')->getClientOriginalExtension()) {
+            throw new Exception('File type must be the same');
+        }
+
+        $this->localFileService->replaceFile($file->path, $request->file('file'), 'files');
+
+        $file->update([
+            'name' => $request->file('file')->getClientOriginalName(),
+            'size' => $request->file('file')->getSize(),
+            'extension' => $request->file('file')->getClientOriginalExtension(),
+        ]);
+
+        return fractal($file, new FileTransformer())->toArray();
     }
 
     public function destroy($id)

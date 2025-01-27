@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $is_protected
  * @method static create(array $array)
  * @method static findOrFail($id)
+ * @method static where(string $string, array|false|int|string|null $path)
  */
 class File extends Model
 {

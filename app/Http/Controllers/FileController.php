@@ -36,6 +36,16 @@ class FileController extends Controller
         }
     }
 
+    public function replace($id, FileUploadRequest $request): JsonResponse
+    {
+        try {
+            $file = $this->fileRepositoryInterface->replace($id, $request);
+            return ApiResponseClass::sendResponse($file, 'File replaced successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
+
     public function destroy($id): JsonResponse
     {
         try {

@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'files'], function () {
         Route::get('/', [FileController::class, 'index']);
         Route::post('upload', [FileController::class, 'upload']);
+        Route::post('replace/{id}', [FileController::class, 'replace'])->where('id', '[0-9a-fA-F\-]{36}');
         Route::delete('{id}', [FileController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
     });
 
