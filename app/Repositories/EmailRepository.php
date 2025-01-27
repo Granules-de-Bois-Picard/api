@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Http\Requests\EmailSendRequest;
 use App\Interfaces\EmailRepositoryInterface;
+use App\Mail\ContactMail;
 use Illuminate\Support\Facades\Mail;
 
 class EmailRepository implements EmailRepositoryInterface
@@ -17,10 +18,6 @@ class EmailRepository implements EmailRepositoryInterface
             'body' => $data['body']
         ];
 
-        Mail::send([], [], function ($message) use ($data, $emailData) {
-            $message->to($data['to'])
-                ->subject($emailData['subject'])
-                ->setBody($emailData['body'], 'text/html');
-        });
+        Mail::to($data['to'])->send(new ContactMail($emailData));
     }
 }
