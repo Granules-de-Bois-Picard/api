@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -9,6 +10,10 @@ use App\Http\Controllers\SlideController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatusController;
 use Illuminate\Support\Facades\Route;
+
+Route::group(['prefix' => 'email'], function () {
+    Route::post('send', [EmailController::class, 'send']);
+});
 
 Route::group(['prefix' => 'status'], function () {
     Route::get('website', [StatusController::class, 'checkWebsite']);
