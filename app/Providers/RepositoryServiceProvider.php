@@ -50,6 +50,11 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\FileRepositoryInterface',
             'App\Repositories\FileRepository'
         );
+
+        $this->app->bind(
+            'App\Interfaces\EmailRepositoryInterface',
+            'App\Repositories\EmailRepository'
+        );
     }
 
     /**
