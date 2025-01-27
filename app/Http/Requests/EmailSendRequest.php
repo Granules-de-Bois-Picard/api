@@ -78,19 +78,13 @@ class EmailSendRequest extends FormRequest
             $response = file_get_contents($url, false, $context);
 
             if ($response === false) {
-                Log::error('Échec de la requête reCAPTCHA');
                 return false;
             }
 
-            Log::debug('Réponse reCAPTCHA:', ['response' => $response]);
             $result = json_decode($response);
-
-            // Vérifiez également le score si vous utilisez v3
-            // if ($result->success && $result->score >= 0.5) { ... }
 
             return $result->success ?? false;
         } catch (\Exception $e) {
-            Log::error('Exception reCAPTCHA:', ['message' => $e->getMessage()]);
             return false;
         }
     }
