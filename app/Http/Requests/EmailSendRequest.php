@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -56,18 +57,18 @@ class EmailSendRequest extends FormRequest
 
     public function checkRecaptchaToken($token): bool
     {
-        $recaptcha_key = config('google.recaptcha.key');
+        $recaptcha_secret = config('google.recaptcha.key');
         $url = config('google.recaptcha.url');
 
         $data = [
-            'secret' => $recaptcha_key,
+            'secret'   => $recaptcha_secret,
             'response' => $token
         ];
 
         $options = [
             'http' => [
-                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
-                'method' => 'POST',
+                'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method'  => 'POST',
                 'content' => http_build_query($data)
             ]
         ];
@@ -75,12 +76,21 @@ class EmailSendRequest extends FormRequest
         try {
             $context = stream_context_create($options);
             $response = file_get_contents($url, false, $context);
+
             if ($response === false) {
+                Log::error('Échec de la requête reCAPTCHA');
                 return false;
             }
+
+            Log::debug('Réponse reCAPTCHA:', ['response' => $response]);
             $result = json_decode($response);
+
+            // Vérifiez également le score si vous utilisez v3
+            // if ($result->success && $result->score >= 0.5) { ... }
+
             return $result->success ?? false;
         } catch (\Exception $e) {
+            Log::error('Exception reCAPTCHA:', ['message' => $e->getMessage()]);
             return false;
         }
     }
