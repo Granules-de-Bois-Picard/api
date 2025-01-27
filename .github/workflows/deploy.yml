@@ -51,6 +51,8 @@ jobs:
               cp .env.example .env
             fi
 
+            sed -i "s/^APP_NAME=.*/APP_NAME=${{ secrets.APP_NAME }}/" .env
+
             sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=${{ secrets.DB_CONNECTION }}/" .env
             sed -i "s/^DB_HOST=.*/DB_HOST=${{ secrets.DB_HOST }}/" .env
             sed -i "s/^DB_PORT=.*/DB_PORT=${{ secrets.DB_PORT }}/" .env
