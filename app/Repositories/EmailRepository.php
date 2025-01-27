@@ -14,7 +14,7 @@ class EmailRepository implements EmailRepositoryInterface
         $data = $request->validated();
 
         $emailData = [
-            'subject' => $data['subject'],
+            'title' => $data['subject'],
             'body' => $data['body']
         ];
 
