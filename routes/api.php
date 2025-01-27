@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -91,4 +92,13 @@ Route::group(['prefix' => 'slides'], function () {
     });
 });
 
+Route::group(['prefix' => 'faq'], function () {
+    Route::get('/', [FaqController::class, 'index']);
+    Route::get('{id}', [FaqController::class, 'show'])->where('id', '[0-9a-fA-F\-]{36}');
 
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('/', [FaqController::class, 'store']);
+        Route::put('{id}', [FaqController::class, 'update'])->where('id', '[0-9a-fA-F\-]{36}');
+        Route::delete('{id}', [FaqController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
+    });
+});

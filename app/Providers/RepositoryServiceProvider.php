@@ -55,6 +55,11 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\EmailRepositoryInterface',
             'App\Repositories\EmailRepository'
         );
+
+        $this->app->bind(
+            'App\Interfaces\FaqRepositoryInterface',
+            'App\Repositories\FaqRepository'
+        );
     }
 
     /**
