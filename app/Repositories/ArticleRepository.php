@@ -28,9 +28,10 @@ class ArticleRepository implements ArticleRepositoryInterface
 
         if (!auth('sanctum')->check()) {
             $query->where('is_published', true);
+            $articles = $query->paginate(10);
+        } else {
+            $articles = $query->paginate(14);
         }
-
-        $articles = $query->paginate(11);
 
         return fractal($articles, new ArticleTransformer())->toArray();
     }
