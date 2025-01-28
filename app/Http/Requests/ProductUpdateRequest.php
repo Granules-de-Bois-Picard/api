@@ -39,7 +39,7 @@ class ProductUpdateRequest extends FormRequest
             'model' => ['required', 'string', 'max:255'],
             'dimensions' => ['required', 'string', 'max:255'],
             'weight' => ['required', 'string', 'max:255'],
-            'certification' => ['required', 'string', 'max:255'],
+            'certifications' => ['required', 'string', 'max:255'],
         ];
     }
 

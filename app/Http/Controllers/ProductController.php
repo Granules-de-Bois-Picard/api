@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Classes\ApiResponseClass;
+use App\Http\Requests\ProductStoreRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Interfaces\ProductRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
@@ -34,7 +36,7 @@ class ProductController extends Controller
         }
     }
 
-    public function store($request): JsonResponse
+    public function store(ProductStoreRequest $request): JsonResponse
     {
         try {
             $product = $this->productRepositoryInterface->store($request);
@@ -44,7 +46,7 @@ class ProductController extends Controller
         }
     }
 
-    public function update($request, $id): JsonResponse
+    public function update(ProductUpdateRequest $request, $id): JsonResponse
     {
         try {
             $product = $this->productRepositoryInterface->update($request, $id);
