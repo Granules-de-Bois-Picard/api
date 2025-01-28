@@ -60,6 +60,11 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Interfaces\FaqRepositoryInterface',
             'App\Repositories\FaqRepository'
         );
+
+        $this->app->bind(
+            'App\Interfaces\ProductRepositoryInterface',
+            'App\Repositories\ProductRepository'
+        );
     }
 
     /**

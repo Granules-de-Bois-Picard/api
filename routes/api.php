@@ -6,6 +6,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\UserController;
@@ -101,5 +102,16 @@ Route::group(['prefix' => 'faq'], function () {
         Route::post('/', [FaqController::class, 'store']);
         Route::put('{id}', [FaqController::class, 'update'])->where('id', '[0-9a-fA-F\-]{36}');
         Route::delete('{id}', [FaqController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
+    });
+});
+
+Route::group(['prefix' => 'products'], function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::get('{id}', [ProductController::class, 'show'])->where('id', '[0-9a-fA-F\-]{36}');
+
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+        Route::post('/', [ProductController::class, 'store']);
+        Route::put('{id}', [ProductController::class, 'update'])->where('id', '[0-9a-fA-F\-]{36}');
+        Route::delete('{id}', [ProductController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
     });
 });
