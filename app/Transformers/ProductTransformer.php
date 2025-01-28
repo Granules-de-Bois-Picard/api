@@ -15,6 +15,7 @@ class ProductTransformer extends TransformerAbstract
         $data = [
             'id' => $product->id,
             'name' => $product->name,
+            'thumbnail_url' => $product->thumbnail_url,
             'brand' => $product->brand,
             'type' => $product->type,
             'model' => $product->model,

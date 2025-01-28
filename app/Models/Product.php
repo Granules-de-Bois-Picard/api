@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $certifications
  * @property mixed $created_at
  * @property mixed $updated_at
+ * @property mixed $thumbnail_url
  * @method static findOrFail($id)
  * @method static create(mixed $validated)
  */
