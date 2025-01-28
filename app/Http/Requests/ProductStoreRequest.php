@@ -34,6 +34,7 @@ class ProductStoreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'thumbnail_url' => ['required', 'string', 'max:255', 'url'],
             'type' => ['required', 'string', 'max:255'],
             'brand' => ['required', 'string', 'max:255'],
             'model' => ['required', 'string', 'max:255'],
