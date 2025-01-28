@@ -25,6 +25,7 @@ class Product extends Model
 
     protected $fillable = [
         'name',
+        'thumbnail_url',
         'type',
         'brand',
         'model',
