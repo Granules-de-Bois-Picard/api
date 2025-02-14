@@ -21,9 +21,15 @@ class FaqRepository implements FaqRepositoryInterface
 
     public function index(): ?array
     {
-        $faqs = QueryBuilder::for(Faq::class)
-            ->orderBy('created_at', 'desc')
-            ->paginate(11);
+        if (!auth('sanctum')->check()) {
+            $faqs = QueryBuilder::for(Faq::class)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } else {
+            $faqs = QueryBuilder::for(Faq::class)
+                ->orderBy('created_at', 'desc')
+                ->paginate(11);
+        }
 
         return fractal($faqs, new FaqTransformer())->toArray();
     }
