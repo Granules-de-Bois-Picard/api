@@ -36,6 +36,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'gallery' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/gallery'),
+            'url' => env('APP_URL').'/storage/gallery',
+            'visibility' => 'public',
+        ],
+
         'files' => [
             'driver' => 'local',
             'root' => storage_path('app/public/files'),

@@ -8,6 +8,7 @@ use App\Models\File;
 use App\Services\LocalFileService;
 use App\Transformers\FileTransformer;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class FileRepository implements FileRepositoryInterface
@@ -82,5 +83,39 @@ class FileRepository implements FileRepositoryInterface
         $this->localFileService->deleteFile($file->path, 'files');
 
         return $file->delete();
+    }
+
+    public function galleryList(): ?array
+    {
+       // return all the folder names in the gallery folder
+       $path = Storage::disk('gallery')->directories();
+
+       $folders = [];
+
+       foreach ($path as $folder) {
+            $folders[] = basename($folder);
+       }
+
+       $folders = array_diff($folders, ['nos-realisations']);
+
+       $data['data'] = $folders;
+
+       return $data;
+    }
+
+    public function gallery($name): ?array
+    {
+        // return all the asset(images) in the gallery folder $name
+        $path = Storage::disk('gallery')->files($name);
+
+        $files = [];
+
+        foreach ($path as $file) {
+            $files[] = asset('/storage/gallery/' . $name . '/' . basename($file));
+        }
+
+        $data['data'] = $files;
+
+        return $data;
     }
 }

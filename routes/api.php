@@ -115,3 +115,6 @@ Route::group(['prefix' => 'products'], function () {
         Route::delete('{id}', [ProductController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
     });
 });
+
+Route::get('/galleries', [FileController::class, 'galleryList']);
+Route::get('/gallery/{name}', [FileController::class, 'gallery']);

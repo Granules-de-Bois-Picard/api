@@ -10,4 +10,7 @@ interface FileRepositoryInterface
 
     public function replace($id, FileUploadRequest $request);
     public function destroy($id);
+
+    public function galleryList();
+    public function gallery($name);
 }

@@ -55,4 +55,24 @@ class FileController extends Controller
             return ApiResponseClass::throw($e, $e->getMessage());
         }
     }
+
+    public function galleryList(): JsonResponse
+    {
+        try {
+            $files = $this->fileRepositoryInterface->galleryList();
+            return ApiResponseClass::sendResponse($files, 'Gallery retrieved successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
+
+    public function gallery($name): JsonResponse
+    {
+        try {
+            $file = $this->fileRepositoryInterface->gallery($name);
+            return ApiResponseClass::sendResponse($file, 'Gallery retrieved successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
 }
