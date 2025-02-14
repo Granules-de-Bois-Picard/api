@@ -28,7 +28,7 @@ class ProductRepository implements ProductRepositoryInterface
         } else {
             $products = QueryBuilder::for(Product::class)
                 ->orderBy('created_at', 'desc')
-                ->paginate(11);
+                ->paginate(14);
         }
 
         return fractal($products, new ProductTransformer())->toArray();
