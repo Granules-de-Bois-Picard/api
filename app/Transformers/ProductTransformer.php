@@ -20,6 +20,8 @@ class ProductTransformer extends TransformerAbstract
             'type' => $product->type,
             'model' => $product->model,
             'dimensions' => $product->dimensions,
+            'availableColors' => ["#000000", "#FFFFFF"],
+            'hasWifiCompatibility' => (bool)rand(0, 1),
             'weight' => $product->weight,
             'certifications' => $product->certifications,
             'created_at' => $product->created_at->toDateTimeString(),
