@@ -21,14 +21,25 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function index(): ?array
     {
+        $search = request()->query('search');
+
         if (!auth('sanctum')->check()) {
             $products = QueryBuilder::for(Product::class)
                 ->orderBy('created_at', 'desc')
                 ->get();
         } else {
-            $products = QueryBuilder::for(Product::class)
-                ->orderBy('created_at', 'desc')
-                ->paginate(14);
+            if ($search) {
+                $products = QueryBuilder::for(Product::class)
+                    ->where('name', 'LIKE', "%$search%")
+                    ->orWhere('brand', 'LIKE', "%$search%")
+                    ->orWhere('type', 'LIKE', "%$search%")
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(14);
+            } else {
+                $products = QueryBuilder::for(Product::class)
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(14);
+            }
         }
 
         return fractal($products, new ProductTransformer())->toArray();
