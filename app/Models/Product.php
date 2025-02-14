@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $created_at
  * @property mixed $updated_at
  * @property mixed $thumbnail_url
+ * @property mixed $availableColors
+ * @property mixed $hasWifiCompatibility
  * @method static findOrFail($id)
  * @method static create(mixed $validated)
  */
@@ -31,6 +33,8 @@ class Product extends Model
         'brand',
         'model',
         'dimensions',
+        'availableColors',
+        'hasWifiCompatibility',
         'weight',
         'certifications',
     ];

@@ -39,6 +39,8 @@ class ProductStoreRequest extends FormRequest
             'brand' => ['required', 'string', 'max:255'],
             'model' => ['required', 'string', 'max:255'],
             'dimensions' => ['required', 'string', 'max:255'],
+            'availableColors' => ['required', 'array'],
+            'hasWifiCompatibility' => ['required', 'boolean'],
             'weight' => ['required', 'string', 'max:255'],
             'certifications' => ['required', 'string', 'max:255'],
         ];

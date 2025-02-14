@@ -43,7 +43,11 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function store(ProductStoreRequest $request): ?array
     {
-        $product = Product::create($request->validated());
+        $request->merge([
+            'availableColors' => json_encode($request->availableColors)
+        ]);
+
+        $product = Product::create($request->all());
 
         return fractal($product, new ProductTransformer())->toArray();
     }
@@ -52,7 +56,11 @@ class ProductRepository implements ProductRepositoryInterface
     {
         $product = Product::findOrFail($id);
 
-        $product->update($request->validated());
+        $request->merge([
+            'availableColors' => json_encode($request->availableColors)
+        ]);
+
+        $product->update($request->all());
 
         return fractal($product, new ProductTransformer())->toArray();
     }

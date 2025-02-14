@@ -37,6 +37,8 @@ class ProductUpdateRequest extends FormRequest
             'thumbnail_url' => ['required', 'string', 'max:255', 'url'],
             'type' => ['required', 'string', 'max:255'],
             'brand' => ['required', 'string', 'max:255'],
+            'availableColors' => ['required', 'array'],
+            'hasWifiCompatibility' => ['required', 'boolean'],
             'model' => ['required', 'string', 'max:255'],
             'dimensions' => ['required', 'string', 'max:255'],
             'weight' => ['required', 'string', 'max:255'],
