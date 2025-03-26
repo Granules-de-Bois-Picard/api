@@ -13,4 +13,5 @@ interface ProductRepositoryInterface
     public function update(ProductUpdateRequest $request, $id);
     public function destroy($id);
     public function setBestSeller($id);
+    public function getBestSeller();
 }

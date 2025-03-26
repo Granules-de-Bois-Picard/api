@@ -107,6 +107,7 @@ Route::group(['prefix' => 'faq'], function () {
 
 Route::group(['prefix' => 'products'], function () {
     Route::get('/', [ProductController::class, 'index']);
+    Route::get('/best-seller', [ProductController::class, 'getBestSeller']);
     Route::get('{id}', [ProductController::class, 'show'])->where('id', '[0-9a-fA-F\-]{36}');
 
     Route::group(['middleware' => 'auth:sanctum'], function () {

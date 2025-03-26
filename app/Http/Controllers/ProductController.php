@@ -75,4 +75,14 @@ class ProductController extends Controller
             return ApiResponseClass::throw($e, $e->getMessage());
         }
     }
+    
+    public function getBestSeller(): JsonResponse
+    {
+        try {
+            $product = $this->productRepositoryInterface->getBestSeller();
+            return ApiResponseClass::sendResponse($product, 'Best seller product retrieved successfully');
+        } catch (\Exception $e) {
+            return ApiResponseClass::throw($e, $e->getMessage());
+        }
+    }
 }

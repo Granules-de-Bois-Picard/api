@@ -94,4 +94,15 @@ class ProductRepository implements ProductRepositoryInterface
         
         return fractal($product, new ProductTransformer())->toArray();
     }
+    
+    public function getBestSeller(): ?array
+    {
+        $product = Product::where('is_best_seller', true)->first();
+        
+        if (!$product) {
+            return ['data' => null];
+        }
+        
+        return fractal($product, new ProductTransformer())->toArray();
+    }
 }
