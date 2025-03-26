@@ -22,7 +22,7 @@ class ProductTransformer extends TransformerAbstract
             'dimensions' => $product->dimensions,
             'availableColors' => json_decode($product->availableColors),
             'hasWifiCompatibility' => (boolean)$product->hasWifiCompatibility,
-            'is_best_seller' => (boolean)$product->is_best_seller,
+            'isBestSeller' => (boolean)$product->is_best_seller,
             'weight' => $product->weight,
             'certifications' => $product->certifications,
             'created_at' => $product->created_at->toDateTimeString(),
