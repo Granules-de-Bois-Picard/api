@@ -34,11 +34,11 @@ class ProductRepository implements ProductRepositoryInterface
                     ->orWhere('brand', 'LIKE', "%$search%")
                     ->orWhere('type', 'LIKE', "%$search%")
                     ->orderBy('created_at', 'desc')
-                    ->paginate(14);
+                    ->paginate(13);
             } else {
                 $products = QueryBuilder::for(Product::class)
                     ->orderBy('created_at', 'desc')
-                    ->paginate(14);
+                    ->paginate(13);
             }
         }
 
