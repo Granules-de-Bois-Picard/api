@@ -82,4 +82,16 @@ class ProductRepository implements ProductRepositoryInterface
 
         $product->delete();
     }
+    
+    public function setBestSeller($id): ?array
+    {
+        // Reset all products to not be best seller
+        Product::where('is_best_seller', true)->update(['is_best_seller' => false]);
+        
+        // Set the selected product as best seller
+        $product = Product::findOrFail($id);
+        $product->update(['is_best_seller' => true]);
+        
+        return fractal($product, new ProductTransformer())->toArray();
+    }
 }

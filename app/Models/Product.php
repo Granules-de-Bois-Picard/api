@@ -35,6 +35,7 @@ class Product extends Model
         'dimensions',
         'availableColors',
         'hasWifiCompatibility',
+        'is_best_seller',
         'weight',
         'certifications',
     ];

@@ -112,6 +112,7 @@ Route::group(['prefix' => 'products'], function () {
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/', [ProductController::class, 'store']);
         Route::put('{id}', [ProductController::class, 'update'])->where('id', '[0-9a-fA-F\-]{36}');
+        Route::put('{id}/set-best-seller', [ProductController::class, 'setBestSeller'])->where('id', '[0-9a-fA-F\-]{36}');
         Route::delete('{id}', [ProductController::class, 'destroy'])->where('id', '[0-9a-fA-F\-]{36}');
     });
 });

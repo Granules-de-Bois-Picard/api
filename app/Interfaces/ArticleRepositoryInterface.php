@@ -14,4 +14,6 @@ interface ArticleRepositoryInterface
     public function destroy($id);
 
     public function lastArticle();
+
+    public function isBestSeller($id);
 }
