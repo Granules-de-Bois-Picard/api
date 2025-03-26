@@ -76,14 +76,4 @@ class ArticleController extends Controller
             return ApiResponseClass::throw($e, $e->getMessage());
         }
     }
-
-    public function isBestSeller($id): JsonResponse
-    {
-        try {
-            $article = $this->articleRepositoryInterface->isBestSeller($id);
-            return ApiResponseClass::sendResponse($article, 'Article is best seller');
-        } catch (\Exception $e) {
-            return ApiResponseClass::throw($e, $e->getMessage());
-        }
-    }
 }
