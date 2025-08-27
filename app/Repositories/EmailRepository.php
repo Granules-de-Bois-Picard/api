@@ -24,6 +24,7 @@ class EmailRepository implements EmailRepositoryInterface
             'from' => $data['from'],
             'body' => $data['body'],
             'full_name' => $data['full_name'],
+            'phone' => $data['phone'],
         ];
 
         Mail::to($this->to)->send(new ContactMail($emailData));

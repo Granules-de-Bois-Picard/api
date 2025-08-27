@@ -38,6 +38,7 @@ class EmailSendRequest extends FormRequest
             'subject' => 'required|string|max:255',
             'body' => 'required|string',
             'full_name' => 'required|string|max:255',
+            'phone' => 'required|string|regex:/^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/',
             'recaptchaToken' => ['required', function ($attribute, $value, $fail) {
                 if (!$this->checkRecaptchaToken($value)) {
                     $fail('The recaptcha token is invalid.');

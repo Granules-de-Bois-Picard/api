@@ -65,6 +65,10 @@
             <span class="label">Email :</span>
             {{ $mailData['from'] }}
         </div>
+        <div class="info-item">
+            <span class="label">Téléphone :</span>
+            {{ $mailData['phone'] }}
+        </div>
     </div>
 
     <div class="message-content">
